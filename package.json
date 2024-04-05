@@ -1,0 +1,21 @@
+{
+  "name": "triogarden-ecommerce",
+  "version": "1.0.0",
+  "description": "Triogarden Store",
+  "main": "index.js",
+  "author": "Gürkan Sevil",
+  "license": "ISC",
+  "keywords": [],
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "dev:api": "cd api && npm run dev",
+    "clear": "cd client && rm -rf .next",
+    "setup:client": "cd client && npm install",
+    "setup:api": "cd api && npm install",
+    "setup": "npm install && npm run setup:client && npm run setup:api",
+    "dev": "npm run clear && concurrently \"npm run dev:api\" \"npm run dev:client\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

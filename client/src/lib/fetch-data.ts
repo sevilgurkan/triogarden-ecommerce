@@ -1,5 +1,5 @@
 import qs from "qs"
-import { getStrapiURL } from "./strapi"
+import { flattenAttributes, getStrapiURL } from "./strapi"
 
 const baseUrl = getStrapiURL()
 
@@ -29,7 +29,7 @@ export async function fetchData(
   try {
     const response = await fetch(url.href, authToken ? headers : {})
     const data = await response.json()
-    return data
+    return flattenAttributes(data)
   } catch (error) {
     console.error("Error fetching data:", error)
     throw error

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": {
+    "displayName": "Hero"
+  },
+  "options": {},
+  "attributes": {
+    "imageLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "links.image-link"
+    }
+  }
+}

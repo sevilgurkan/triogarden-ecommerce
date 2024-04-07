@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_buttons_icon_buttons",
+  "info": {
+    "displayName": "Icon Button"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "destructive", "ghost"],
+      "default": "primary"
+    },
+    "icon": {
+      "type": "enumeration",
+      "required": true,
+      "enum": ["USER", "FAVOURITE", "BASKET"]
+    }
+  }
+}

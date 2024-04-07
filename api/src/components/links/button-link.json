@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_links_button_links",
+  "info": {
+    "displayName": "Button Link",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "isExternal": {
+      "type": "boolean",
+      "default": false
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary",
+        "destructive",
+        "ghost"
+      ],
+      "default": "primary"
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "USER",
+        "FAVOURITE",
+        "BASKET"
+      ]
+    }
+  }
+}

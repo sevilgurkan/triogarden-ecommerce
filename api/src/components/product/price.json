@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_product_prices",
+  "info": {
+    "displayName": "Price"
+  },
+  "options": {},
+  "attributes": {
+    "originalPrice": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "discountedPrice": {
+      "type": "decimal",
+      "min": 0
+    }
+  }
+}

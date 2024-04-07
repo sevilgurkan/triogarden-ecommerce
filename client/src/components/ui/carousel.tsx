@@ -252,6 +252,40 @@ const CarouselNext = React.forwardRef<
 })
 CarouselNext.displayName = "CarouselNext"
 
+const CarouselDots = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof Button>
+>(({ className, variant = "outline", size = "icon", ...props }, ref) => {
+  const { api } = useCarousel()
+
+  if (!api) return null
+
+  const scrollSnaps = api.scrollSnapList()
+
+  return scrollSnaps ? (
+    <div className="absolute flex justify-center list-none left-0 right-0 bottom-3 space-x-1">
+      {scrollSnaps.map((snap, index) => {
+        const isSelected = api.selectedScrollSnap() === index
+
+        return (
+          <button
+            key={index}
+            className={cn(
+              "cursor-pointer relative p-0 border border-white w-3 h-3 flex items-center rounded-full overflow-hidden",
+              {
+                "bg-white": isSelected,
+                "bg-transparent": !isSelected,
+              }
+            )}
+            onClick={() => api.scrollTo(index)}
+          />
+        )
+      })}
+    </div>
+  ) : null
+})
+CarouselDots.displayName = "CarouselDots"
+
 export {
   type CarouselApi,
   Carousel,
@@ -259,4 +293,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselDots,
 }

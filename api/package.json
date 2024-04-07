@@ -2,10 +2,10 @@
   "name": "api",
   "version": "0.1.0",
   "private": true,
-  "description": "A Strapi application",
+  "description": "Triogarden Store API",
   "license": "MIT",
   "author": {
-    "name": "A Strapi developer"
+    "name": "Gürkan Sevil"
   },
   "scripts": {
     "build": "strapi build",

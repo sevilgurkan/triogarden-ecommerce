@@ -1,7 +1,8 @@
 {
   "collectionName": "components_sections_product_showcases",
   "info": {
-    "displayName": "Product Showcases"
+    "displayName": "Product Showcases",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -9,10 +10,11 @@
       "type": "string",
       "required": true
     },
-    "products": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
+    "showcaseItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.showcase-item",
+      "required": true
     }
   }
 }

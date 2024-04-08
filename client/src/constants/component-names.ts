@@ -1,4 +1,5 @@
 export const COMPONENT_NAMES = {
-  LAYOUT_HERO_SECTION: "layout.hero-section",
-  LAYOUT_FEATURES_SECTION: "layout.features-section",
+  LAYOUT_HEADER: "layout.header",
+  SECTIONS_HERO: "sections.hero",
+  SECTIONS_PRODUCT_SHOWCASES: "sections.product-showcases",
 } as const

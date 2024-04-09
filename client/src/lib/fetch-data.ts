@@ -1,5 +1,5 @@
 import qs from "qs"
-import { flattenAttributes, getStrapiURL } from "./strapi"
+import { flattenAttributes, getStrapiURL } from "@/utils/strapi"
 
 const baseUrl = getStrapiURL()
 
@@ -9,12 +9,13 @@ export async function fetchData(
   options = {}
 ) {
   const authToken = null
+  const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN
 
   const headers: RequestInit = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${token}`,
     },
     ...options,
   }
@@ -29,6 +30,7 @@ export async function fetchData(
   try {
     const response = await fetch(url.href, authToken ? headers : {})
     const data = await response.json()
+
     return flattenAttributes(data)
   } catch (error) {
     console.error("Error fetching data:", error)

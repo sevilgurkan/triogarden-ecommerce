@@ -888,12 +888,6 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
           localized: true
         }
       }>
-    footer: Attribute.Component<"layout.footer"> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true
-        }
-      }>
     createdAt: Attribute.DateTime
     updatedAt: Attribute.DateTime
     publishedAt: Attribute.DateTime

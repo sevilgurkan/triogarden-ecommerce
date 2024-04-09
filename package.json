@@ -13,7 +13,8 @@
     "setup:client": "cd client && npm install",
     "setup:api": "cd api && npm install",
     "setup": "npm install && npm run setup:client && npm run setup:api",
-    "dev": "npm run clear && concurrently \"npm run dev:api\" \"npm run dev:client\""
+    "dev": "npm run clear && concurrently \"npm run dev:api\" \"npm run dev:client\"",
+    "copytypes": "node ./scripts/copytypes.js"
   },
   "dependencies": {
     "concurrently": "^8.2.2"

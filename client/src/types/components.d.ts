@@ -30,28 +30,6 @@ export interface ButtonsIconButton extends Schema.Component {
   }
 }
 
-export interface ElementsShowcaseItem extends Schema.Component {
-  collectionName: "components_elements_showcase_items"
-  info: {
-    displayName: "Showcase Item"
-  }
-  attributes: {
-    title: Attribute.String & Attribute.Required
-    description: Attribute.Text
-    image: Attribute.Media & Attribute.Required
-  }
-}
-
-export interface LayoutFooter extends Schema.Component {
-  collectionName: "components_layout_footers"
-  info: {
-    displayName: "Footer"
-  }
-  attributes: {
-    brandName: Attribute.String
-  }
-}
-
 export interface LayoutHeader extends Schema.Component {
   collectionName: "components_layout_headers"
   info: {
@@ -96,13 +74,12 @@ export interface LinksImageLink extends Schema.Component {
   collectionName: "components_links_image_links"
   info: {
     displayName: "Image Link"
-    description: ""
   }
   attributes: {
     text: Attribute.String
+    url: Attribute.String & Attribute.Required
     isExternal: Attribute.Boolean & Attribute.DefaultTo<false>
     image: Attribute.Media & Attribute.Required
-    url: Attribute.String & Attribute.Required
   }
 }
 
@@ -161,7 +138,6 @@ export interface SectionsHero extends Schema.Component {
   collectionName: "components_sections_heroes"
   info: {
     displayName: "Hero"
-    description: ""
   }
   attributes: {
     imageLinks: Attribute.Component<"links.image-link", true>
@@ -172,12 +148,14 @@ export interface SectionsProductShowcases extends Schema.Component {
   collectionName: "components_sections_product_showcases"
   info: {
     displayName: "Product Showcases"
-    description: ""
   }
   attributes: {
     heading: Attribute.String & Attribute.Required
-    showcaseItems: Attribute.Component<"elements.showcase-item", true> &
-      Attribute.Required
+    products: Attribute.Relation<
+      "sections.product-showcases",
+      "oneToMany",
+      "api::product.product"
+    >
   }
 }
 
@@ -237,8 +215,6 @@ declare module "@strapi/types" {
     export interface Components {
       "buttons.button": ButtonsButton
       "buttons.icon-button": ButtonsIconButton
-      "elements.showcase-item": ElementsShowcaseItem
-      "layout.footer": LayoutFooter
       "layout.header": LayoutHeader
       "layout.navbar": LayoutNavbar
       "links.button-link": LinksButtonLink

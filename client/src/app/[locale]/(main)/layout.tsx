@@ -47,7 +47,10 @@ export default async function MainLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
-        <main>{children}</main>
+        <LocaleLayout locale={locale}>
+          <Header />
+          <main>{children}</main>
+        </LocaleLayout>
       </body>
     </html>
   )

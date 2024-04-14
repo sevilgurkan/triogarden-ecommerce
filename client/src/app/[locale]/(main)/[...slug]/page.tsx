@@ -1,5 +1,5 @@
 interface PageParams {
-  lang: string
+  locale: string
   slug: string
 }
 

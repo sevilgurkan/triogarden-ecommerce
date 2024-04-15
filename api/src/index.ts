@@ -26,12 +26,20 @@ const localeConfig = {
   },
 }
 
+async function getUploadedImages(strapi: Strapi) {
+  return strapi.entityService.findMany("plugin::upload.file") as Promise<
+    StrapiImage[]
+  >
+}
+
 async function addSeedData(strapi: Strapi) {
   await deleteAllExistingData(strapi)
 
+  const uploadedImages = await getUploadedImages(strapi)
+
   const brands = createBrands()
   const categories = createCategories()
-  const products = createProducts(brands, categories)
+  const products = createProducts(brands, categories, uploadedImages)
 
   await Promise.all([
     ...brands.map(brand =>
@@ -126,7 +134,11 @@ function createCategories(): Category {
   }, {})
 }
 
-function createProducts(brands: Brand[], category: Category): Product {
+function createProducts(
+  brands: Brand[],
+  category: Category,
+  images: StrapiImage[]
+): Product {
   const PRODUCTS_LENGTH = 20
 
   return Object.entries(localeConfig).reduce((res, [locale, config]) => {
@@ -146,6 +158,7 @@ function createProducts(brands: Brand[], category: Category): Product {
             )
 
         const randomCategory = faker.helpers.arrayElement(localeCategories)
+        const randomImages = faker.helpers.arrayElements(images, 3)
 
         const sameDayShipping = faker.datatype.boolean({ probability: 0.4 })
         const freeCargo = faker.datatype.boolean({ probability: 0.5 })
@@ -183,8 +196,8 @@ function createProducts(brands: Brand[], category: Category): Product {
           category: {
             id: randomCategory.id,
           },
-          featuredImage: null,
-          images: null,
+          featuredImage: randomImages[0].id,
+          images: randomImages,
           url: `/${productPathPrefix}/${slugify(name)}`,
           locale: locale,
           sameDayShipping,
@@ -222,6 +235,10 @@ function slugify(str: string) {
 
 function applyDiscount(originalPrice: number, discountPercentage: number) {
   return originalPrice - (originalPrice * discountPercentage) / 100
+}
+
+type StrapiImage = {
+  id: number
 }
 
 type Brand = {

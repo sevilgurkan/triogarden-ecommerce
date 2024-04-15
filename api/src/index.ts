@@ -150,6 +150,23 @@ function createProducts(brands: Brand[], category: Category): Product {
         const sameDayShipping = faker.datatype.boolean({ probability: 0.4 })
         const freeCargo = faker.datatype.boolean({ probability: 0.5 })
         const isInCampaign = faker.datatype.boolean({ probability: 0.3 })
+        const isDiscounted = faker.datatype.boolean({ probability: 0.7 })
+
+        const originalPrice = parseFloat(
+          faker.commerce.price({
+            min: 100,
+            max: 500_000,
+            dec: 2,
+          })
+        )
+
+        const discountPercentage = faker.helpers.arrayElement([
+          10, 20, 30, 40, 50,
+        ])
+
+        const discountedPrice = isDiscounted
+          ? applyDiscount(originalPrice, discountPercentage)
+          : originalPrice
 
         const name = faker.commerce.productName()
 
@@ -157,8 +174,8 @@ function createProducts(brands: Brand[], category: Category): Product {
           name,
           price: {
             id: ++index,
-            originalPrice: 0,
-            discountedPrice: 0,
+            originalPrice,
+            discountedPrice,
           },
           brand: {
             id: randomBrand.id,
@@ -201,6 +218,10 @@ function slugify(str: string) {
     .replace(/\-\-+/g, "-")
     .replace(/^-+/, "")
     .replace(/-+$/, "")
+}
+
+function applyDiscount(originalPrice: number, discountPercentage: number) {
+  return originalPrice - (originalPrice * discountPercentage) / 100
 }
 
 type Brand = {

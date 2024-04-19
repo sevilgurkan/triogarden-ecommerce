@@ -6,7 +6,7 @@
   },
   "options": {},
   "attributes": {
-    "imageLinks": {
+    "heroLinks": {
       "type": "component",
       "repeatable": true,
       "component": "links.image-link"

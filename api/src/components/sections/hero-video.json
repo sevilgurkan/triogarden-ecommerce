@@ -1,7 +1,7 @@
 {
-  "collectionName": "components_elements_showcase_items",
+  "collectionName": "components_sections_hero_videos",
   "info": {
-    "displayName": "Showcase Item"
+    "displayName": "Hero Video"
   },
   "options": {},
   "attributes": {
@@ -9,12 +9,9 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "text"
-    },
-    "image": {
+    "media": {
       "allowedTypes": [
-        "images"
+        "videos"
       ],
       "type": "media",
       "multiple": false,

@@ -12,7 +12,7 @@
     "links": {
       "type": "component",
       "repeatable": true,
-      "component": "links.button-link"
+      "component": "links.icon-link"
     }
   }
 }

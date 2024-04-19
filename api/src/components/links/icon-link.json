@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_links_icon_links",
+  "info": {
+    "displayName": "Icon Link",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "isExternal": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": ["USER", "FAVOURITE", "BASKET"]
+    }
+  }
+}

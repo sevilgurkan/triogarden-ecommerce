@@ -31,5 +31,8 @@
   },
   "strapi": {
     "uuid": "9d337bb6-6d74-431b-a0d2-fef4554a86dd"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1"
   }
 }

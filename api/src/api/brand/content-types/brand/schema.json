@@ -4,7 +4,8 @@
   "info": {
     "singularName": "brand",
     "pluralName": "brands",
-    "displayName": "Brand"
+    "displayName": "Brand",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,12 +19,6 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
-    },
-    "products": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product",
-      "mappedBy": "brand"
     }
   }
 }

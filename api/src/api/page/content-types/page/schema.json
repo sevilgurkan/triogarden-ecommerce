@@ -26,7 +26,8 @@
       "components": [
         "layout.header",
         "sections.hero",
-        "sections.product-showcases"
+        "sections.hero-video",
+        "sections.banners"
       ]
     },
     "seo": {

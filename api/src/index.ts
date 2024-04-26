@@ -139,7 +139,7 @@ function createProducts(
   category: Category,
   images: StrapiImage[]
 ): Product {
-  const PRODUCTS_LENGTH = 20
+  const PRODUCTS_LENGTH = 100
 
   return Object.entries(localeConfig).reduce((res, [locale, config]) => {
     const { faker, productPathPrefix } = config
@@ -163,6 +163,7 @@ function createProducts(
         const sameDayShipping = faker.datatype.boolean({ probability: 0.4 })
         const freeCargo = faker.datatype.boolean({ probability: 0.5 })
         const isInCampaign = faker.datatype.boolean({ probability: 0.3 })
+        const isRushDelivery = faker.datatype.boolean({ probability: 0.3 })
         const isDiscounted = faker.datatype.boolean({ probability: 0.7 })
 
         const originalPrice = parseFloat(
@@ -180,6 +181,10 @@ function createProducts(
         const discountedPrice = isDiscounted
           ? applyDiscount(originalPrice, discountPercentage)
           : originalPrice
+
+        const rushDeliveryDuration = isRushDelivery
+          ? faker.number.int({ min: 1, max: 30 })
+          : 0
 
         const name = faker.commerce.productName()
 
@@ -203,6 +208,7 @@ function createProducts(
           sameDayShipping,
           freeCargo,
           isInCampaign,
+          rushDeliveryDuration,
           publishedAt: new Date(),
         }
       }),
@@ -279,6 +285,7 @@ type Product = {
     sameDayShipping: boolean
     freeCargo: boolean
     isInCampaign: boolean
+    rushDeliveryDuration: number
     publishedAt: Date
   }[]
 }

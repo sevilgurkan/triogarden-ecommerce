@@ -18,6 +18,18 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:locale/kategori/:slug*",
+        destination: "/:locale/category/:slug*",
+      },
+      {
+        source: "/:locale/urun/:slug*",
+        destination: "/:locale/product/:slug*",
+      },
+    ]
+  },
 }
 
 export default withNextIntl(nextConfig)

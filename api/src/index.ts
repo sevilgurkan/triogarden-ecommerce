@@ -26,20 +26,21 @@ const localeConfig = {
   },
 }
 
-async function getUploadedImages(strapi: Strapi) {
+async function getUploadedMedia(strapi: Strapi) {
   return strapi.entityService.findMany("plugin::upload.file") as Promise<
-    StrapiImage[]
+    StrapiMedia[]
   >
 }
 
 async function addSeedData(strapi: Strapi) {
   await deleteAllExistingData(strapi)
 
-  const uploadedImages = await getUploadedImages(strapi)
+  const uploadedMedia = await getUploadedMedia(strapi)
 
   const brands = createBrands()
   const categories = createCategories()
-  const products = createProducts(brands, categories, uploadedImages)
+  const products = createProducts(brands, categories, uploadedMedia)
+  const pages = createPages(categories, uploadedMedia)
 
   await Promise.all([
     ...brands.map(brand =>
@@ -64,6 +65,13 @@ async function addSeedData(strapi: Strapi) {
     })
   }
   console.log("✅ Products created")
+
+  for (const page of pages) {
+    await strapi.entityService.create("api::page.page", {
+      data: page,
+    })
+  }
+  console.log("✅ Pages created")
 }
 
 async function deleteAllExistingData(strapi: Strapi) {
@@ -71,6 +79,7 @@ async function deleteAllExistingData(strapi: Strapi) {
     strapi.db.connection("brands").truncate(),
     strapi.db.connection("categories").truncate(),
     strapi.db.connection("products").truncate(),
+    strapi.db.connection("pages").truncate(),
   ])
 
   console.log("✅ Deleted all existing data")
@@ -137,9 +146,12 @@ function createCategories(): Category {
 function createProducts(
   brands: Brand[],
   category: Category,
-  images: StrapiImage[]
+  media: StrapiMedia[]
 ): Product {
   const PRODUCTS_LENGTH = 100
+  const uniqueProductNames = new Set()
+
+  const images = media.filter(file => file.ext !== ".mp4")
 
   return Object.entries(localeConfig).reduce((res, [locale, config]) => {
     const { faker, productPathPrefix } = config
@@ -186,10 +198,17 @@ function createProducts(
           ? faker.number.int({ min: 1, max: 30 })
           : 0
 
-        const name = faker.commerce.productName()
+        let name = faker.commerce.productName()
+        while (uniqueProductNames.has(name)) {
+          name = faker.commerce.productName()
+        }
+        uniqueProductNames.add(name)
 
         return {
           name,
+          slug: slugify(name),
+          url: `/${productPathPrefix}/${slugify(name)}`,
+          locale: locale,
           price: {
             id: ++index,
             originalPrice,
@@ -203,8 +222,7 @@ function createProducts(
           },
           featuredImage: randomImages[0].id,
           images: randomImages,
-          url: `/${productPathPrefix}/${slugify(name)}`,
-          locale: locale,
+
           sameDayShipping,
           freeCargo,
           isInCampaign,
@@ -214,6 +232,61 @@ function createProducts(
       }),
     }
   }, {})
+}
+
+function createPages(category: Category, media: StrapiMedia[]): Page[] {
+  const images = media.filter(file => file.ext !== ".mp4")
+
+  return [
+    {
+      locale: "tr",
+      name: "Ana Sayfa",
+      slug: "home",
+      blocks: [
+        {
+          __component: "sections.hero-video",
+          id: 1,
+          title: "Ahşabın doğayla buluştuğu yer",
+          media: media.find(
+            file => file.name === "3768367-hd_1920_1080_25fps.mp4"
+          ),
+        },
+        {
+          __component: "sections.banners",
+          bannerItems: category.tr.map(ct => ({
+            title: ct.name,
+            url: `/kategori/${ct.slug}`,
+            image: images[Math.floor(Math.random() * images.length)],
+          })),
+        },
+      ],
+      publishedAt: new Date(),
+    },
+    {
+      locale: "en",
+      name: "Home Page",
+      slug: "home",
+      blocks: [
+        {
+          __component: "sections.hero-video",
+          id: 2,
+          title: "Where wood meets nature",
+          media: media.find(
+            file => file.name === "3768367-hd_1920_1080_25fps.mp4"
+          ),
+        },
+        {
+          __component: "sections.banners",
+          bannerItems: category.en.map(ct => ({
+            title: ct.name,
+            url: `/category/${ct.slug}`,
+            image: images[Math.floor(Math.random() * images.length)],
+          })),
+        },
+      ],
+      publishedAt: new Date(),
+    },
+  ]
 }
 
 function slugify(str: string) {
@@ -243,8 +316,10 @@ function applyDiscount(originalPrice: number, discountPercentage: number) {
   return originalPrice - (originalPrice * discountPercentage) / 100
 }
 
-type StrapiImage = {
+type StrapiMedia = {
   id: number
+  name: string
+  ext: string
 }
 
 type Brand = {
@@ -267,6 +342,9 @@ type Category = {
 type Product = {
   [key: string]: {
     name: string
+    slug: string
+    url: string
+    locale: string
     price: {
       id: number
       originalPrice: number
@@ -280,12 +358,18 @@ type Product = {
     }
     featuredImage: null
     images: null
-    url: string
-    locale: string
     sameDayShipping: boolean
     freeCargo: boolean
     isInCampaign: boolean
     rushDeliveryDuration: number
     publishedAt: Date
   }[]
+}
+
+interface Page {
+  locale: string
+  name: string
+  slug: string
+  blocks: any[]
+  publishedAt: Date
 }

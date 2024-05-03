@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_product_product_dimensions",
+  "info": {
+    "displayName": "Product Dimension"
+  },
+  "options": {},
+  "attributes": {
+    "width": {
+      "type": "string"
+    },
+    "height": {
+      "type": "string"
+    },
+    "depth": {
+      "type": "string"
+    }
+  }
+}

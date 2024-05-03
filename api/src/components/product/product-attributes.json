@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_product_product_attributes",
+  "info": {
+    "displayName": "Product Attributes",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "dimension": {
+      "type": "component",
+      "repeatable": false,
+      "component": "product.product-dimension"
+    },
+    "warrantyPeriod": {
+      "type": "integer"
+    },
+    "title": {
+      "type": "string",
+      "required": false
+    },
+    "capacity": {
+      "type": "integer"
+    },
+    "setContent": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "color": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::color.color"
+    },
+    "material": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::material.material"
+    }
+  }
+}

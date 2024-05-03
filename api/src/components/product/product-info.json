@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_product_product_infos",
+  "info": {
+    "displayName": "Product Info",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Ürün Bilgileri"
+    },
+    "info": {
+      "type": "blocks"
+    }
+  }
+}
